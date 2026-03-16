@@ -8,11 +8,11 @@ import {
 } from "../ui/dialog";
 import { UserPlus } from "lucide-react";
 import type { User } from "@/types/user";
-// import { useFriendStore } from "@/stores/useFriendStore";
+import { useFriendStore } from "@/stores/useFriendStore";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
-// import SearchForm from "@/components/AddFriendModal/SearchForm";
-// import SendFriendRequestForm from "@/components/AddFriendModal/SendFriendRequestForm";
+import SearchForm from "@/components/AddFriendModal/SearchForm";
+import SendFriendRequestForm from "@/components/AddFriendModal/SendFriendRequestForm";
 
 export interface IFormValues {
   username: string;
@@ -23,7 +23,7 @@ const AddFriendModal = () => {
   const [isFound, setIsFound] = useState<boolean | null>(null);
   const [searchUser, setSearchUser] = useState<User>();
   const [searchedUsername, setSearchedUsername] = useState("");
-  // const { loading, searchByUsername, addFriend } = useFriendStore();
+  const { loading, searchByUsername, addFriend } = useFriendStore();
 
   const {
     register,
@@ -45,13 +45,13 @@ const AddFriendModal = () => {
     setSearchedUsername(username);
 
     try {
-      // const foundUser = await searchByUsername(username);
-      // if (foundUser) {
-      //   setIsFound(true);
-      //   setSearchUser(foundUser);
-      // } else {
-      //   setIsFound(false);
-      // }
+      const foundUser = await searchByUsername(username);
+      if (foundUser) {
+        setIsFound(true);
+        setSearchUser(foundUser);
+      } else {
+        setIsFound(false);
+      }
     } catch (error) {
       console.error(error);
       setIsFound(false);
@@ -62,10 +62,10 @@ const AddFriendModal = () => {
     if (!searchUser) return;
 
     try {
-      // const message = await addFriend(searchUser._id, data.message.trim());
-      // toast.success(message);
+      const message = await addFriend(searchUser._id, data.message.trim());
+      toast.success(message);
 
-      // handleCancel();
+      handleCancel();
     } catch (error) {
       console.error("Lỗi xảy ra khi gửi request từ form", error);
     }
@@ -91,7 +91,7 @@ const AddFriendModal = () => {
           <DialogTitle>Kết Bạn</DialogTitle>
         </DialogHeader>
 
-        {/* {!isFound && (
+        {!isFound && (
           <>
             <SearchForm
               register={register}
@@ -116,7 +116,7 @@ const AddFriendModal = () => {
               onBack={() => setIsFound(null)}
             />
           </>
-        )} */}
+        )}
       </DialogContent>
     </Dialog>
   );

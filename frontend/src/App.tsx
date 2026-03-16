@@ -7,14 +7,27 @@ import ProtectedRoute from "./components/auth/ProtectedRoute.tsx"
 import { TooltipProvider } from "./components/ui/tooltip.tsx"
 import { useThemeStore } from "./stores/useThemeStore";
 import { useEffect } from "react";
+import { useSocketStore } from "./stores/useSocketStore";
+import { useAuthStore } from "./stores/useAuthStore";
 
 function App() {
   const { isDark, setTheme } = useThemeStore();
+  const { accessToken } = useAuthStore();
+  const { connectSocket, disconnectSocket } = useSocketStore();
 
   useEffect(() => {
     setTheme(isDark);
   }, [isDark]);
 
+  useEffect(() => {
+    if (accessToken) {
+      connectSocket();
+    }
+
+    return () => {
+      disconnectSocket();
+    };
+  }, [accessToken]);
 
   return (
     <>
