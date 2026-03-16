@@ -12,7 +12,7 @@ export const protectedRoute = (req, res, next) => {
 
         jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, async (err, decoded) => {
             if (err) {
-                return res.status(401).json({ message: "Unauthorized" });
+                return res.status(403).json({ message: "Unauthorized" });
             }
 
             const user = await User.findById(decoded.userId).select("-hashedPassword");

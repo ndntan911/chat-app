@@ -94,3 +94,32 @@ export const signOut = async (req, res) => {
         res.status(500).json({ message: "Internal server error" });
     }
 }
+
+export const refreshToken = async (req, res) => {
+    try {
+        const refreshToken = req.cookies.refreshToken;
+        if (!refreshToken) {
+            return res.status(401).json({ message: "Unauthorized" });
+        }
+
+        const session = await Session.findOne({ refreshToken });
+        if (!session) {
+            return res.status(403).json({ message: "Unauthorized" });
+        }
+
+        if (session.expiresAt < Date.now()) {
+            return res.status(403).json({ message: "Unauthorized" });
+        }
+
+        const accessToken = jwt.sign(
+            { userId: session.userId },
+            process.env.ACCESS_TOKEN_SECRET,
+            { expiresIn: ACCESS_TOKEN_TTL }
+        );
+
+        res.status(200).json({ message: "User signed in successfully", accessToken });
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({ message: "Internal server error" });
+    }
+}
