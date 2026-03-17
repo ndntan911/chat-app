@@ -78,7 +78,7 @@ const ChatWindowHeader = ({ chat }: { chat?: Conversation }) => {
         </div>
       </div>
       <div className="flex items-center gap-2">
-        <Button
+        {/* <Button
           variant="ghost"
           size="icon"
           onClick={() => {
@@ -87,7 +87,7 @@ const ChatWindowHeader = ({ chat }: { chat?: Conversation }) => {
           }}
         >
           <Phone className="h-5 w-5" />
-        </Button>
+        </Button> */}
       </div>
 
 
