@@ -28,3 +28,31 @@ export const searchUserByUsername = async (req, res) => {
         return res.status(500).json({ message: "Lỗi hệ thống" });
     }
 };
+
+export const uploadAvatar = async (req, res) => {
+    try {
+        const file = req.file;
+        const userId = req.user._id;
+
+        if (!file) {
+            return res.status(400).json({ message: "Vui lòng chọn file ảnh" });
+        }
+
+        const result = await uploadImageFromBuffer(file.buffer);
+
+        const user = await User.findByIdAndUpdate(
+            userId,
+            { avatarUrl: result.secure_url, avatarId: result.public_id },
+            { new: true }
+        ).select("avatarUrl");
+
+        if (!user.avatarUrl) {
+            return res.status(400).json({ message: "Lỗi hệ thống" });
+        }
+
+        return res.status(200).json({ message: "Upload avatar thành công", avatarUrl: user.avatarUrl });
+    } catch (error) {
+        console.error("Lỗi xảy ra khi uploadAvatar", error);
+        return res.status(500).json({ message: "Lỗi hệ thống" });
+    }
+};

@@ -1,4 +1,3 @@
-// import { useFriendStore } from "@/stores/useFriendStore";
 import { useState } from "react";
 import {
   Dialog,
@@ -13,20 +12,21 @@ import { UserPlus, Users } from "lucide-react";
 import { Label } from "../ui/label";
 import { Input } from "../ui/input";
 import type { Friend } from "@/types/user";
-// import IniviteSuggestionList from "../newGroupChat/IniviteSuggestionList";
-// import SelectedUsersList from "../newGroupChat/SelectedUsersList";
+import IniviteSuggestionList from "../newGroupChat/IniviteSuggestionList";
+import SelectedUsersList from "../newGroupChat/SelectedUsersList";
 import { toast } from "sonner";
 import { useChatStore } from "@/stores/useChatStore";
+import { useFriendStore } from "@/stores/useFriendStore";
 
 const NewGroupChatModal = () => {
   const [groupName, setGroupName] = useState("");
   const [search, setSearch] = useState("");
-  // const { friends, getFriends } = useFriendStore();
+  const { friends, getFriends } = useFriendStore();
   const [invitedUsers, setInvitedUsers] = useState<Friend[]>([]);
   const { loading, createConversation } = useChatStore();
 
   const handleGetFriends = async () => {
-    // await getFriends();
+    await getFriends();
   };
 
   const handleSelectFriend = (friend: Friend) => {
@@ -59,11 +59,11 @@ const NewGroupChatModal = () => {
     }
   };
 
-  // const filteredFriends = friends.filter(
-  //   (friend) =>
-  //     friend.displayName.toLowerCase().includes(search.toLowerCase()) &&
-  //     !invitedUsers.some((u) => u._id === friend._id)
-  // );
+  const filteredFriends = friends.filter(
+    (friend) =>
+      friend.displayName.toLowerCase().includes(search.toLowerCase()) &&
+      !invitedUsers.some((u) => u._id === friend._id)
+  );
 
   return (
     <Dialog>
@@ -123,18 +123,18 @@ const NewGroupChatModal = () => {
             />
 
             {/* danh sách gợi ý */}
-            {/* {search && filteredFriends.length > 0 && (
+            {search && filteredFriends.length > 0 && (
               <IniviteSuggestionList
                 filteredFriends={filteredFriends}
                 onSelect={handleSelectFriend}
               />
-            )} */}
+            )}
 
             {/* danh sách user đã chọn */}
-            {/* <SelectedUsersList
+            <SelectedUsersList
               invitedUsers={invitedUsers}
               onRemove={handleRemoveFriend}
-            /> */}
+            />
           </div>
 
           <DialogFooter>
