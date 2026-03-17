@@ -7,11 +7,16 @@ import UserAvatar from "./UserAvatar";
 import StatusBadge from "./StatusBadge";
 import GroupChatAvatar from "./GroupChatAvatar";
 import { useSocketStore } from "@/stores/useSocketStore";
+import { Button } from "../ui/button";
+import { Phone } from "lucide-react";
+import { useWebRTCStore } from "@/stores/userWebRTCStore";
 
 const ChatWindowHeader = ({ chat }: { chat?: Conversation }) => {
   const { conversations, activeConversationId } = useChatStore();
   const { user } = useAuthStore();
   const { onlineUsers } = useSocketStore();
+  const { startCall, connectWebRTC } = useWebRTCStore();
+
 
   let otherUser;
 
@@ -33,7 +38,7 @@ const ChatWindowHeader = ({ chat }: { chat?: Conversation }) => {
   }
 
   return (
-    <header className="sticky top-0 z-10 px-4 py-2 flex items-center bg-background">
+    <header className="sticky top-0 z-10 px-4 py-2 flex items-center bg-background justify-between">
       <div className="flex items-center gap-2 w-full">
         <SidebarTrigger className="-ml-1 text-foreground" />
         <Separator
@@ -72,6 +77,20 @@ const ChatWindowHeader = ({ chat }: { chat?: Conversation }) => {
           </h2>
         </div>
       </div>
+      <div className="flex items-center gap-2">
+        <Button
+          variant="ghost"
+          size="icon"
+          onClick={() => {
+            connectWebRTC(chat._id);
+            startCall();
+          }}
+        >
+          <Phone className="h-5 w-5" />
+        </Button>
+      </div>
+
+
     </header>
   );
 };

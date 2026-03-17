@@ -39,6 +39,10 @@ io.on("connection", async (socket) => {
 
     socket.join(user._id.toString());
 
+    socket.on('offer', ({ roomId, offer }) => socket.to(roomId).emit('offer', { from: socket.id, offer }));
+    socket.on('answer', ({ roomId, answer }) => socket.to(roomId).emit('answer', { from: socket.id, answer }));
+    socket.on('ice-candidate', ({ roomId, candidate }) => socket.to(roomId).emit('ice-candidate', { from: socket.id, candidate }));
+
     socket.on("disconnect", () => {
         onlineUsers.delete(user._id);
         io.emit("online-users", Array.from(onlineUsers.keys()));

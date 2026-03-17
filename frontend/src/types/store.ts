@@ -94,3 +94,17 @@ export interface FriendState {
 export interface UserState {
     updateAvatarUrl: (formData: FormData) => Promise<void>;
 }
+
+export interface WebRTCState {
+    localVideoRef: React.RefObject<HTMLVideoElement | null>;
+    remoteVideoRef: React.RefObject<HTMLVideoElement | null>;
+    pcRef: React.RefObject<RTCPeerConnection | null>;
+    callState: string;
+    roomId: string;
+    getLocalStream: () => Promise<MediaStream>;
+    createPeerConnection: (stream: MediaStream) => RTCPeerConnection;
+    startCall: () => Promise<void>;
+    endCall: () => void;
+    connectWebRTC: (roomId: string) => void;
+    disconnectWebRTC: () => void;
+}
