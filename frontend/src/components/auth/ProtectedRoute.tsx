@@ -25,8 +25,12 @@ const ProtectedRoute = () => {
 
   if (starting || loading) {
     return (
-      <div className="flex h-screen items-center justify-center">
-        Đang tải trang...
+      <div className="flex h-screen flex-col items-center justify-center gap-2 text-gray-500">
+        <div className="h-8 w-8 animate-spin rounded-full border-4 border-gray-200 border-t-blue-500" />
+        <p className="text-sm">
+          Đang tải trang...
+        </p>
+        <p className="text-xs text-gray-400">Lần đầu có thể mất 30–60 giây</p>
       </div>
     );
   }
