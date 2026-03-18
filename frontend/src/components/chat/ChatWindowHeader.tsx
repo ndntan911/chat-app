@@ -78,16 +78,16 @@ const ChatWindowHeader = ({ chat }: { chat?: Conversation }) => {
         </div>
       </div>
       <div className="flex items-center gap-2">
-        {/* <Button
+        <Button
           variant="ghost"
           size="icon"
           onClick={() => {
-            connectWebRTC(chat._id);
-            startCall();
+            // connectWebRTC(chat._id);
+            // startCall();
           }}
         >
           <Phone className="h-5 w-5" />
-        </Button> */}
+        </Button>
       </div>
 
 
